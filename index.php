@@ -1,10 +1,5 @@
 <?php
-    $host = 'localhost';
-    $user = 'root';
-    $pass = '';
-    $db = 'mejoras_cata';
-
-    $conn = mysqli_connect($host, $user, $pass, $db);
+    require('connection.php');
 ?>
 
 <!DOCTYPE html>
@@ -145,6 +140,13 @@
     <div class="container p-5">
         <div class="row">
             <div class="col">
+                <div class="row py-2 border table-light">
+                    <div class="col-2">Nombre</div>
+                    <div class="col-5">Descripción</div>
+                    <div class="col-2">Imágen</div>
+                    <div class="col-2">Logo</div>
+                    <div class="col-1">Acción</div>
+                </div>
                 <?php
                     $tablasql = "SELECT * FROM categorias_proyectos";
                     $tablasres = mysqli_query($conn, $tablasql);
@@ -152,9 +154,21 @@
                         echo '
                             <div class="row py-2 border table-light">
                                 <div class="col-2">'. $row["titulo"] .'</div>
-                                <div class="col-6">'. $row["descripcion"] .'</div>
+                                <div class="col-5">'. $row["descripcion"] .'</div>
                                 <div class="col-2"><img src="imagenes/'. $row["imagen"] .'" class="img-fluid" style="height: 200px; width: auto;"></div>
                                 <div class="col-2"><img src="imagenes/'. $row["logo"] .'" class="img-fluid" style="height: 200px; width: auto;"></div>
+                                <div class="col-1">
+                                    <div class="row mt-3">
+                                        <div class="col text-center">
+                                            <a href="eliminarP.php?id='.$row['id'].'" class="btn btn-outline border border-danger">Eliminar</a>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col text-center">
+                                            <a href="editarP.php?id='.$row['id'].'" class="btn btn-outline border border-primary">Editar</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         ';      
                     }
