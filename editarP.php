@@ -73,32 +73,49 @@
                     </div>
                     <div class="col-2">
                         <form action="" method="POST" enctype="multipart/form-data">
-                            <input type="file" name="mImagen" class="form-control"/>
+                            <input type="file" name="mLogo" class="form-control"/>
                             <input type="submit" name="enviar3" class="form-control"/>
                         </form>
                         ';
-                        if(isset($_POST['enviar3'])){
-                            $i = $_POST['mImagen'];
+                        if(isset($_FILES['mImagen']['name'])){
                             $anterior = 'imagenes/'.$row['imagen'];
                             unlink($anterior);
 
-                            if(isset($_FILES['mImagen']['name'])){
-                                $imagen = $_FILES['mImagen']['name'];  
-                                $temp_name_imagen = $_FILES['mImagen']['tmp_name'];  
+                            $imagen = $_FILES['mImagen']['name'];  
+                            $temp_name_imagen = $_FILES['mImagen']['tmp_name'];  
                             
-                                if(isset($imagen) and !empty($imagen)){
-                                    $location = 'imagenes/';      
-                                    move_uploaded_file($temp_name_imagen, $location.$imagen);
-                                }
+                            if(isset($imagen) and !empty($imagen)){
+                                $location = 'imagenes/';      
+                                move_uploaded_file($temp_name_imagen, $location.$imagen);
                             }
 
-                            $res = mysqli_query($conn, "UPDATE categorias_proyectos SET imagen='$i' WHERE id=$t_id");
+                            $res = mysqli_query($conn, "UPDATE categorias_proyectos SET imagen='$imagen' WHERE id=$t_id");
                             header('Location: index.php');
-                        }   
+                        }
                         echo '
                     </div>
                     <div class="col-2">
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            <input type="file" name="mLogo" class="form-control"/>
+                            <input type="submit" name="enviar3" class="form-control"/>
+                        </form>
+                        ';
+                        if(isset($_FILES['mLogo']['name'])){
+                            $anterior2 = 'imagenes/'.$row['logo'];
+                            unlink($anterior2);
 
+                            $logo = $_FILES['mLogo']['name'];  
+                            $temp_name_logo = $_FILES['mLogo']['tmp_name'];  
+                    
+                            if(isset($logo) and !empty($logo)){
+                                $location2 = 'imagenes/';      
+                                move_uploaded_file($temp_name_logo, $location2.$logo);
+                            }
+
+                            $res = mysqli_query($conn, "UPDATE categorias_proyectos SET logo='$logo' WHERE id=$t_id");
+                            header('Location: index.php');
+                        }
+                        echo '
                     </div>
                 </div>
                 
