@@ -142,6 +142,27 @@
         </div>
     </div>
 
+    <div class="container p-5">
+        <div class="row">
+            <div class="col">
+                <?php
+                    $tablasql = "SELECT * FROM categorias_proyectos";
+                    $tablasres = mysqli_query($conn, $tablasql);
+                    while($row = mysqli_fetch_array($tablasres)){
+                        echo '
+                            <div class="row py-2 border table-light">
+                                <div class="col-2">'. $row["titulo"] .'</div>
+                                <div class="col-6">'. $row["descripcion"] .'</div>
+                                <div class="col-2"><img src="imagenes/'. $row["imagen"] .'" class="img-fluid" style="height: 200px; width: auto;"></div>
+                                <div class="col-2"><img src="imagenes/'. $row["logo"] .'" class="img-fluid" style="height: 200px; width: auto;"></div>
+                            </div>
+                        ';      
+                    }
+                ?>
+            </div>
+        </div>
+    </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
