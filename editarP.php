@@ -6,16 +6,16 @@
 <?php
     require('connection.php');
 
-    $t_id = '';
-
     if(isset($_GET['id'])){
         $t_id = $_GET['id'];
+        $t = '';
 
-        $result = mysqli_query($conn, "SELECT * FROM categorias_proyectos WHERE id=$t_id");
-        $row = mysqli_fetch_array($result);
+        $mostrar = mysqli_query($conn, "SELECT * FROM categorias_proyectos WHERE id=$t_id");
+        $row = mysqli_fetch_array($mostrar);
 
         echo '
-            <div class="container p-5">
+            <div class="container">
+            
                 <div class="row">
                     <div class="col-2">
                         Titulo
@@ -32,52 +32,81 @@
                 </div>
                 <div class="row">
                     <div class="col-2">
-                        '. $row["titulo"] .'
+                        '. $row['titulo'] .'
                     </div>
                     <div class="col-6">
-                        '. $row["descripcion"] .'
+                        '. $row['descripcion'] .'
                     </div>
                     <div class="col-2">
-                        <img src="imagenes/'. $row["imagen"] .'" class="img-fluid" style="height: 200px; width: auto;">
+                        <img src="imagenes/'. $row['imagen'] .'" class="img-fluid" style="height: 200px; width: auto;" />
                     </div>
                     <div class="col-2">
-                        <img src="imagenes/'. $row["logo"] .'" class="img-fluid" style="height: 200px; width: auto;">
+                        <img src="imagenes/'. $row['logo'] .'" class="img-fluid" style="height: 200px; width: auto;" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-2">
-                        <form action="editarP.php" method="POST">
-                            <input type="text" name="tit" class="form-control"/>
-                            <input type="submit" class="form-control" value="Actualizar"/>
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            <input type="text" name="mTitulo" class="form-control"/>
+                            <input type="submit" name="enviar" class="form-control"/>
                         </form>
+                        ';
+                        if(isset($_POST['enviar'])){
+                            $t = $_POST['mTitulo'];
+                            $res = mysqli_query($conn, "UPDATE categorias_proyectos SET titulo='$t' WHERE id=$t_id");
+                            header('Location: index.php');
+                        }   
+                        echo '
                     </div>
                     <div class="col-6">
-                        <form action="" method="POST">
-                            <textarea name="desc" class="form-control"></textarea>
-                            <input type="submit" class="form-control" value="Actualizar"/>
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            <input type="text" name="mDescripcion" class="form-control"/>
+                            <input type="submit" name="enviar2" class="form-control"/>
                         </form>
+                        ';
+                        if(isset($_POST['enviar2'])){
+                            $d = $_POST['mDescripcion'];
+                            $res = mysqli_query($conn, "UPDATE categorias_proyectos SET descripcion='$d' WHERE id=$t_id");
+                            header('Location: index.php');
+                        }   
+                        echo '
                     </div>
                     <div class="col-2">
-                        <form action="" method="POST">
-                            <input type="file" name="ima" id="" class="form-control" data-allowed-file-extensions="png jpg jpeg">
-                            <input type="submit" class="form-control" value="Actualizar"/>
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            <input type="file" name="mImagen" class="form-control"/>
+                            <input type="submit" name="enviar3" class="form-control"/>
                         </form>
+                        ';
+                        if(isset($_POST['enviar3'])){
+                            $i = $_POST['mImagen'];
+                            $anterior = 'imagenes/'.$row['imagen'];
+                            unlink($anterior);
+
+                            if(isset($_FILES['mImagen']['name'])){
+                                $imagen = $_FILES['mImagen']['name'];  
+                                $temp_name_imagen = $_FILES['mImagen']['tmp_name'];  
+                            
+                                if(isset($imagen) and !empty($imagen)){
+                                    $location = 'imagenes/';      
+                                    move_uploaded_file($temp_name_imagen, $location.$imagen);
+                                }
+                            }
+
+                            $res = mysqli_query($conn, "UPDATE categorias_proyectos SET imagen='$i' WHERE id=$t_id");
+                            header('Location: index.php');
+                        }   
+                        echo '
                     </div>
                     <div class="col-2">
-                        <form action="" method="POST">
-                            <input type="file" name="log" id="" class="form-control" data-allowed-file-extensions="png jpg jpeg">
-                            <input type="submit" class="form-control" value="Actualizar"/>
-                        </form>
+
                     </div>
                 </div>
+                
+                
             </div>
         ';
-    }
 
-    if(isset($_POST['tit'])){
-        $tit = $_POST['tit'];
-        $sqltit = "UPDATE categorias_proyectos SET titulo=$tit WHERE id=$t_id";
-        $restit = mysqli_query($conn, $sqltit);
+    
     }
 ?>
 

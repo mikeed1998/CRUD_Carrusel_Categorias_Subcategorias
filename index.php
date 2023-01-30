@@ -152,7 +152,7 @@
                     $tablasres = mysqli_query($conn, $tablasql);
                     while($row = mysqli_fetch_array($tablasres)){
                         echo '
-                            <div class="row py-2 border table-light">
+                            <div class="row py-2 border">
                                 <div class="col-2">'. $row["titulo"] .'</div>
                                 <div class="col-5">'. $row["descripcion"] .'</div>
                                 <div class="col-2"><img src="imagenes/'. $row["imagen"] .'" class="img-fluid" style="height: 200px; width: auto;"></div>
