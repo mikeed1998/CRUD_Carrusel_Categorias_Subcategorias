@@ -6,6 +6,8 @@
 <?php
     require('connection.php');
 
+    $t_id = '';
+
     if(isset($_GET['id'])){
         $t_id = $_GET['id'];
 
@@ -44,7 +46,7 @@
                 </div>
                 <div class="row">
                     <div class="col-2">
-                        <form action="" method="POST">
+                        <form action="editarP.php" method="POST">
                             <input type="text" name="tit" class="form-control"/>
                             <input type="submit" class="form-control" value="Actualizar"/>
                         </form>
@@ -70,6 +72,12 @@
                 </div>
             </div>
         ';
+    }
+
+    if(isset($_POST['tit'])){
+        $tit = $_POST['tit'];
+        $sqltit = "UPDATE categorias_proyectos SET titulo=$tit WHERE id=$t_id";
+        $restit = mysqli_query($conn, $sqltit);
     }
 ?>
 
